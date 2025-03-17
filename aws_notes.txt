@@ -1,0 +1,637 @@
+											AWS CLOUD PRACTITONER	
+				*******IAM**********
+				
+IAM - Identity and Acess management
+
+IAM USERS, GROUPS, ROLES, POLICIES, PERMISSIONS
+
+1. IAM USERS : - entities represent a person who are interacting with aws. 
+		- user name & password. 
+		- aws bY default : root account. 
+			root account  - Not to be shared / used.
+		- IAM USERS : GROUP - set of permissions
+
+
+2. IAM GROUPS : collection of users. multiple users collect, make it as a group.
+		- permissions specify. 
+		- grant / revoke. 
+
+3. IAM permissions:define what actions a user, group, a role are allowed or denied on as aws resources. 
+		- defined by IAM policies.
+
+4. IAM Policies : JSON Documents that specify the actions, resources and conditions. 
+		ex:
+			{
+				"Effect" : "Allow",
+				"Action" : "user-ammu",
+				:Resource" : "S3 bucket"
+			}
+	note: in AWS, you can apply the "least privilige principle".
+	LPP - dont give a user more permissions than a user needs.
+
+5. IAM Policies Structure:
+		SID, Effect, Action, Resource
+	SID - An identifier for the statement (optional)
+	Effect - whether the statement allows / denies access
+	Action - list of actions that policy of the user. 
+    Resource - list of resources to which the action apllied to. 
+	Condition - policy - inside of resources (optional)
+
+6. IAM Password Policy :
+	- Strong password - higher security for account
+	- specific character types:
+		- include uppercase letters
+		- lowercase letters
+		- numbers
+		- non - alphnumeric numbers.
+		- Allow all IAM users to change their own passwords. 
+		- Request users to change their password after some time (password expiration)
+
+7. MFA : Multi Factor Authentication
+		- extra security(two step authentication)  for your account. 
+		- mandatory for all users. 
+	types of MFA:
+		1. Virtual MFA - TOTP (Time based One time Password) 
+		2. Hardware MFA - ex: Universal 2nd factor (U2F) securitykey. 
+					yubikey - yubico 
+					Gemalto , SurepassID
+
+8. How users can access AWS?
+	- Three options:
+
+	1. AWS Management Console
+	2. AWS CLI
+	3. AWS SDK
+
+    1. AWS MC- chrome - user name & password +MFA. 
+	2. AWS CLI - Protected by Access keys. 
+		Access keys - Access Key ID = Username 
+		    - Acess Security KEY =Password.
+		note: access keys are nothing but passwords, dont share.
+
+	3.AWS SDK - Software Development KIT. 
+		- language specific API 
+		- enables to access & manage aws services programmitically.
+
+
+9.  IAM Security Tools :
+		It is nothing but a service which helps a user to manage their aws access and authentication in their aws environments.
+		
+		1. IAM Credentials Report ( Account Level) 
+			- a report that lists all your accounts user and status of their credentials.
+			- This report includes details such as when the IAM user's password was last used, 
+				when their access keys were last rotated, and when they were last accessed.
+			- The IAM credentials report is useful for security auditing and ensuring that best practices are followed, 	
+		
+		2. IAM Access Advisor (User -level)
+			- shows the service permissions granted to a user.
+			- last accessed. 
+			- Use this info to revise your policies. 
+			-  It helps you make informed decisions about your IAM policies by showing you the
+			services and actions that are accessed by IAM roles and users within a specified timeframe
+
+10. IAM GUIDELINES & BEST PRACTICES. 
+
+11. IAM ROLES:
+	Entittes with permission policies that determine what actions can be performed on aws resources. 
+		- Some aws services will need to perform on your behalf. 
+			ex:  ec2 instance roles, lambda function roless
+		-  Roles are temporary and assumed by trusted entities, providing a way to grant specific permissions for a limited time, 
+		reducing the need for long-term credentials and enhancing security.
+			
+12. Shared Responsibility Model: IAM
+		AWS :
+		 - Infrastructure( global network security)
+		 - Configuration & Vulnerability analysis\
+		 - Complaince validation 
+		User: you
+		 - Users, policies, group, roles monitoring and management
+		 - Enable MFA for all accounts. 
+		 - Rotating access keys. 
+		 - Providing LPP for users. 
+
+	**********IAAS, PAAS, SAAS ***************
+1. IaaS (Infrastructure as a Service):
+	- Provides virtualized computing resources over the internet.
+	- Users manage the operating system, applications, and data.
+	
+2. PaaS (Platform as a Service):
+	- Offers a platform with development tools, services, and runtime environments.
+	- Users focus on application development; infrastructure management is abstracted.
+	
+3. SaaS (Software as a Service):
+	- Delivers software applications over the internet.
+	- Users access and use the software without worrying about underlying infrastructure or maintenance.
+	
+	*************AWS SERVICES UNDER IPS***************
+	
+1. IaaS (Infrastructure as a Service):
+	1. Amazon EC2 (Elastic Compute Cloud):			
+ Virtual servers in the cloud.
+	2. Amazon S3 (Simple Storage Service):
+ Scalable object storage.
+	3. Amazon RDS (Relational Database Service):
+	4. Managed relational databases.
+	5. Amazon VPC (Virtual Private Cloud):
+	6. Networking and isolated cloud resources.
+
+2. PaaS (Platform as a Service):
+	 1. AWS Elastic Beanstalk:
+	Platform for deploying and managing applications.
+	 2. AWS Lambda:
+	Serverless compute service for running code in response to events.
+	 3. Amazon RDS (Managed Services):
+	Managed databases, including MySQL, PostgreSQL, and more.
+
+3. SaaS (Software as a Service):
+
+	1.Amazon WorkSpaces:
+	2. Managed desktop computing service.
+	3. Amazon Chime:
+	Online meetings, video conferencing, and chat.
+	4. Amazon Connect:
+	Cloud-based contact center service.
+	5. Amazon S3 Transfer Acceleration:
+	6. Fast and secure file transfers to and from Amazon S3.
+	
+			*************EC2*************
+1. EC2 - Elastic Compute Cloud
+		Ec2 is a web-service - it makes easy for developers by providing 
+		secure and resizable compute capacity in the cloud. 	
+		- Infrastructure as a service (IAAS) 
+	EC2 Instance:
+		Instance: It is a virtual server in the cloud.
+					- used to run applications. 
+		Types of Instances:
+		1. Compute optimized
+		2. Storage optimized
+		3. HPC optmized - High Performance Computing 
+		4. General purpose 
+		5. Memory Optimized 
+		6. Accelerated Optimized
+			
+			1. Compute optimized:ideal for compute bound applications - high performance processros
+					- These are well - suited for batch processing workloads, high performing web servers. 
+				key uses : 
+					- Compute bound applications
+					- batch processing
+					- media transcoding(multi media files accessing) 
+					- dedicated gaming servers
+					- machine learning interfence
+			
+			2. Storage optimized: Instances are designed for workloads that
+					require high sequential read and write access to very large data sets on local storage
+					
+					- they are optimized to deliver tens of thousands of
+					   low latency , random I/O operations per second.
+				key uses: 
+					- large data sets on local storage
+					- transcational databases
+					- Amazon opensearch service
+					- I/o operations
+					- real time analytics. 
+					
+			3. HPC Optmized: instances are purpose built to offer "best price performance" for running HPC workloads 
+							 at scale on AWS. 
+							 
+						- HPC instances are ideal for applications 
+							that beenift from high performnace such as large complex simulations and deep learning workloads. 
+				Key uses: 
+					- High performance computing workloads on scale
+					- Large Complex simulations
+					- Deep learning workloads
+					
+			4. General Purpose Optimized: Instances provides a balance of compute, memory and networking resources. 
+					- Ideal for applicatoins that use these resources in equal proportions such as web servers, code repositories. 
+					
+					
+				Key uses: 
+					- Compute 
+					- Memory 
+					- Networking
+				
+			5. Memory Optimized: Instances are designed to delivery 
+							fast performance for workloads that process large data sets in memory.
+							
+					- in memory cache-> this technique where system keeps frequently accessed data 
+						in memory to reduce the time it takes to retreive that data.					
+				
+				key uses:
+					- Fast performance
+					- Open - source databases. 
+					- Large data sets in memory 
+					- Real time big data analytics. 
+					
+			6. Accelerated optimized: instances use hardware accelerators or co- processors to performs functions, 
+								such as floating point number calculations, graphics processing.
+							
+							- these are ideal for ML, fluid dynamics, computational finance,
+								autonoumus vehiccles, drug discovery. 
+			
+				Key uses:
+					- Hardware accelerators
+					- ML Applications
+					- Speech recognition applications
+					- Autonomus vehicles 
+					- Seismic applications.
+					
+	R: Applications that need a lot of RAM - in memory cache  
+	C: Applications that need a lot of good CPU - compute 
+	M: Applications that are balanced - general purpose
+	I: Applications that need a good local I/O - Instance storag e / databases
+	G: Applications that need a GPU - video rendering / ML. 
+	
+Use case : Notifying users about a newsletter. 
+
+	run -> new products -> customers -> new(notification) -> reach -> either gmail / notification. 
+	
+	EC2 -> 
+		use cases: 
+			- Pay only for what you use
+			- Ease in scaling up / down
+			- Can be integrated into several other services.
+			
+	SNS : Simple Notification Service
+
+sol: Create AWS account -> EC2 instance -> AMI( Amazon Machine Image) 
+
+	***********AMI*************
+1. AMI : Amazon Machine Image
+		- Template that is used to create a new instance. 
+		
+		The AMI contains:
+			- information about software info
+			- operating system info, volume info
+			- Access permissions.
+	Types:
+		- Predefined AMI'S are created by Amazon & can be modified by the user. 
+		- Customer AMI's are created by user , so that they can be reused. 
+			
+sol continue: EC2-> SNS -> create a topic -> make topic as public -> add subscribers. 	
+		extension -> S3 bucket -> set an event -> SNS. -> notifications sent to all subscribers.
+
+			********EBS**********
+1. EBS: Elastic Block Store
+	- Ebs volume is a network drive(accessed over internet) - it can be attached to your instance. 
+	- It allows your instances to persist data, even after their termination.
+	- They can only be mounted to one instance at a time. 
+	- They are bound to specific AZ's. 
+	- you can increase the size overtime. 
+	Network drive:
+		it uses network to communicate the instance, which means there might be a bit of latency. 
+	- can be attached / detached quickly.
+NOTE: EBS volume cannot be attached to us-east-1b 
+	- To move a volume across, you first need to snapshot it.
+	
+	EBS - Delete on Termination Attribute :
+		1. controling the EBS behaviour when an EC2 instance terminates:
+		2. By default , the root EBS volume is deleted. (attribute enable) - check box
+		3. By default, any other attached EBS volume is not deleted. 
+NOTE: preserve user root volume when instace is terminated. 
+
+
+2. EBS SNAPSHOTS: (Not AZ specific)
+	- Make a backup(snapshot) of your EBS volume at a point in time.
+	- Not necessary to detach volume to do snapshot. 
+	- can copy snapshots across AZ or region. 
+	Features:
+		1. EBS Snapshot Archive
+		2. Recycle Bin for EBS Snapshots
+			1. EBS Snapshot Archive:
+				- Move a snapshot to an "archive tier" - 75 percent cheaper. 
+				- takes within 24 to 72 hrs for restoring the archive. 
+			
+			2. Recycle Bin for EBS Snapshots:
+				- setup rules to retain deleted snapshots
+					so you can recover them after accidental deletion. 
+				- specify rentention (1day to 1 year)
+	
+			*********AMI Overview********
+1. AMI = Amazon Machine Image(TEMPLATE) 
+	- AMI are a customization of an EC2 instance. 
+	- you add your own software, configuration, operating system....
+	- faster boot/ configuration time. 
+	- AMI are built for a specific region. ( copied across regions)
+	
+	Launch :
+		- Public AMI - AWS provided. 
+		- Your own AMI - can be created and maintained by customer. 
+		- An AWS Marketplace AMI - an AMI made by someone else.
+		
+	AMI Process :
+		- Start an EC2 instance and customize it. 
+		- stop the instance - optional 
+		- Build an AMI - this will also create EBS snapshot
+		- Launch instance. 
+		
+			**************EC2 IMAGE BUILDER***************
+1. EC2 Image Builder:
+	used to automate the creation of virtual machines or container images. 
+	- creation, maintain, vadilation and tests. 
+	- can be run on a schedule. 
+	
+2. EC2 Instance Store: - Hardware disk. 
+	EBS - netwok drivers -> good but with "limited performance".
+	- If you need a high performance "hardware disk" , use Instance store.
+	- Better I/O Performance. 
+	- lose its storage once stopped. 
+	- Good for buffer/ cache / scratch / temporary data. 
+	
+Note: Risk of data loss if hardware fails. 
+	- Backups and replicaioins are your responbility. (users)
+	
+				********EFS**********
+1. EFS : Elastic File System (network file system) 
+	- NFS - it is a distributed protocol where a user on client computer can access files over network 
+				as if they are stored locally. 
+	- Managed to mount on 100's of ec2. 
+	- EFS works with "linux EC2" instance in multiAZ. 
+	- however they also works with windows, macos, but the native integration
+		and ooptimal performance is achived with linux. 
+	- Highly available, scalable, expensive. 
+	- pay per use, no capacity planning. 
+		TYPES:
+		1. EFS Infrequenct Access (EFS -IA)
+			- Storage class that is cost optimized for files
+				which are not accessed everyday. 
+			- up to 92 percent lower cost compared to EFS standard. 
+			- EFS will automatically move your files to EFS-IA
+				based on last time they were accesed.				
+			- Enable EFS-IA with "lifecycle policy". 
+				ex: move files that are not accessed for 60 days to EFS-IA.
+				
+2. Shared Responsibility Model for EC2 storage:
+	AWS:
+		1. infrastructure
+		2. Replication data for EBS volumues and EFS drivers. 
+		3. Replacing faulty hardware. 
+		4. Ensuring their employees cannot access your data. 
+		
+	You:
+		1. setting backup / snapshot procedures. 
+		2. setting up data encryption 
+		3. responsibility of any data on the drives. 
+		4. understanding the risk of using EC2 instance store. 
+		
+		*************AMAZON FSX*************
+		
+1. Amazon FSX - File Storage System.
+ - launch 3rd party high performance file systems on aws. 
+ - FULLY MANAGED SERVICE.
+	Types:
+	1. FSX for windows
+	2. FSX for Lustre.(linux)
+	1. 1. FSX for windows:
+	- Fully managed service, highly available, highly reliable & scalable - windows native shared file system. 
+	- Built on Windows File Server. 
+	- Supports SMB protocol 
+		SMB : Server Message Block protocol. 
+		- Network file sharing protocol that enables communication b/w devices over a network. 
+		- SMB facilities the sharing of files, prints, etc.. over a network. 
+	- supports Windows NFTS.
+		NFTS: New Technology File System.
+			developed by Microsoft for windows operating system. 
+			- It provides several features that contribute to secure management of files & stores.
+			- integrated with Microsoft active directory.
+	- Can be accessed from AWS or your on premise infrasturcture.
+	
+	2. FSX for Linux:
+	- Fully managed service, highly available, highly reliable & scalable for HPC. 
+	- linux , cluster -> Lustre. 
+	- ML, Video Processing, Financial Modelling
+	- Scales upto 100's GB/s.
+	
+	************SCALING & HIGH Availability***********
+	
+1. Scaling &High Availablity:
+	Scalability means that appplication/system can handle greater loads by adapting. 
+	TYpes:
+		1. Vertical scalability
+		2. Horizontal "
+	1. Vertical scalability:
+		Increasing the size of the instance. 
+			ex: t2.micro  -> t2. large
+		- non distrubed systems, such as databases. 
+		- limit to how much you can vertically scale. (hardware limit)
+		
+	2. Horizontal Scalability:
+		Increasing the number of instances/ systems for your applicaiton.
+		 	ex: 3 -> 4 (+1)
+		- implies distributed systems. 
+		- web applications. 
+		- directly proportional to HIGH AVAILABLITY. 
+		
+2. HIGH AVAILABLITY:
+	- Directly proportional to HORIZONTAL SCALING 
+	- Running your application / system in atleast 2 az's. 
+	- The goal of high availability is to survive data center loss(disaster).		
+		
+			**********High Availability & Scalability for EC2*************
+1. Vertical scaling :
+	1. scale up - increasing 
+	2. scale down - decreasing
+	
+2. Horizontal scaling :
+	1. scale in - decreasing
+	2. scale out - increasing
+		types.
+			1. Auto Scaling GROUP
+			2. Load Balancer. 
+
+3. High availability : Run instances for same applications across multi AZ
+		1. Auto scaling group multi AZ
+		2. Load balancer multi AZ. 
+		
+4. Elasticity:
+	once a system is scalable, - elasticity means that there will be some "auto-scaling". 
+	- user friendly, pay -per use, match demands,optimize costs. 
+	
+5. Agility:
+	(not related to scalability - disaster)
+		New IT resources are only a click away, which means that you reduce the time
+		to make those resources available to your developers from weeks to just minutes. 
+		
+				******** LOAD BALANCING ************
+1. Load Balancing:
+	Load balancers are serves that forward internet traffic to multiple servers (EC2 instances). 
+2. WHY?
+	- spread load across multiple downstream instances.
+	- Expose a single point of access (DNS) to your application. 
+		DNS: Domain Name System
+			It is system that translates human -readable domain names (www.google.com) 
+				to Ip address that machines can understand. 
+	- Seamlessly handle failures of downstream instances.
+	- Do regular health checks to your instances. 
+	- provide SSL termination (HTTPS)
+		SSL - Secure Sockets Layer. / TLS - Transport Layer Security 
+	- High availability across zones. 
+	
+3. ELB - Elastic Load Balancer	
+		It is a managed load balancer. 
+		- AWS guarantees that it will be working
+		- AWS take care of ugrades, maintainance, high availability
+		- Aws provides only few congifuration knobs. 
+		- It costs less to setup your own load balancer, it is more effort to your end. 
+	TYPES:
+		1. Application Load Balancer - (HTTP /HTTPS ONLY) - LAYER 7
+		2. Network Load Balancer - TCP /UDP - LAYER 4
+		3. Gateway Load Balancer - LAYER 3
+		4. Classic Load Balancer - LAYER 4 & 7 - retired in 2023.
+	TCP - Transmission Control Protocol
+	UDP - User Datagram Protocol. 
+	
+		********* AMAZON S3 ************
+1. S3- SIMPLE STORAGE SERVICE: - GLOBAL SERVICE 
+
+	- Amazon s3- main building block of AWS. 
+	- it is advirtised as "INFINITELY SCALING" storage. 
+	- Many websites use s3 as a backone. 
+	- many aws services use s3 as an integration as well.
+	
+2. USE CASES:
+		1. Backup & storage
+		2. Disaster recovery.
+		3. Archive 
+		4. Hybrid cloud storage.
+		5. Application hosting
+		6. Media hosting
+		7. Data lakes & big data analytics. 
+		8. Software delivery.
+		9. Static websites.
+		
+3. AMAZON S3 - BUCKETS:
+	- s3 allows people to store objects (files) in "BUCKETS". (Directories)
+	- Buckets must have a globally unique name. (across all regions all accounts)
+	- Buckets are defined at region. 
+	- S3 looks like a global service, but buckets are created in a region.
+	Name Convention:
+		- No uppercase, No underscore. 
+		- 3 - 63 char long
+		- not a IP
+		- Must start with lowercase letter or number
+		- must not start with prefix xn--	
+		- must not end with the suffix -s3alias
+		
+4. AMAZON S3- OBJECTS:
+	- objects (files) have a key
+	- the key is the FULL path:
+		- s3://my-bucket/myfile.txt
+	- the key is composed of prefix +object name. 
+		- s3:/mybucket/myfolder/anotherfolder/myfile.txt
+	- there's no concept of "directories" within buckets. 
+	- just keys with very long names that contain slashes.
+	- OBject values are content of the body. 
+	- max. object size is 5TB (5000 GB)
+	- if uploading more than 5gb, must use "multi-part upload".
+	- Metadata (list of text key/value pairs)  - system / user metadata. 
+	- Tags (unicode key/value pairs - upto 10) - useful for security / lifecycle. 
+	- Version ID (if versioning is enabled)
+		
+		*********AMAZON S3 - SECURITY ************
+1. User based.
+2. Resource based
+	1. User based : 
+			IAM Policies: - which API call should be allowed for specific user from IAM. 
+	2. Resource based:
+			1. Bucket policies - bucket wide rules from the s3 console - allows cross account.
+			2. Object Access Control list (ACL) - can be disable 
+				Object ACL : - it is a way to manage access permissions for individual objects stored in s3. 
+				- these can define who can access the objects and what actions can be done. 
+	3. Bucket Access Control List (ACL) - it is used to manage access permissions who can perform specific actions on the entire bucket. 
+		- Reading, writing or listing its contents. 
+	4. Encryption: encrypt objects in amazon s3 using encryption keys. 
+	
+		*********S3 BUCKET POLICIES*************
+1. JSON based policies 
+2. use s3 bucket for policy
+	1. JSON based policies :
+		- resources: buckets & objects 
+		- effects : allow / deny
+		- actions: API to allow / deny(user)
+		- principle : account or user to apply
+		
+	2. use s3 bucket for policy:
+		- grant public access to bucket. 
+		- force objects to be encrypted at upload. 
+		- grant access to another account. (cross acc)
+		
+	**************AMAZON S3 - STATIC WEB HOSTING***********
+	
+	*************AMAZON S3 GLACIER STORAGE***************
+S3 GLACIER STORAGE CLASS
+	- low cost object storage meant for archiving / backup. 
+	- pricing: price for storage + object retrieval cost. 
+	TYPES:
+	1. AMAZON S3 GLACIER INSTANT RETRIEVAL :
+		- millisecond retrival, great for data accessed once a quarter. 
+		- minimum storage duration of 90 days.
+		
+	2. AMAZON S3 GLACIER FLEXIBLE RETRIEVAL:(formerly called as amazon s3 galcier)
+		- expected (1-5 mins), standard (3 to 5 hrs), bulk (5 to 12 hrs) - free
+		- minimum storage duration 90 days.
+	
+	3. AMAZON S3 GLACIER DEEP ARCHIVE - for long term storage. 
+		- standard (12 hrs), bulk (48hrs)
+		- minimum storage duration of 180 days.
+		
+	4. S3 INTELLIGENT TIERING:
+		- Moves objects automatically bw access tiers based on usage. 
+		- there is no retrieval charges in this. 
+		- small monthly monitoring and auto - tiering fee. 
+		
+	NOTE:
+		- Frequent AT - default tier. 
+		- Infrequent AT - objects not accessed for 30 days.
+		- archive instant at - objects not accessed for 90 days
+		- archive access tier - configuration from 90 days to 700+days. 
+		- deep archive access t - config, bw 180 days to 700+days.
+		
+	***************S3 ENCRYPTION*****************
+S3 ENCRYPTION:
+	TYPES:
+		1. Server side encryption(SSE)
+		2. Client side encryption(CSE)
+	1. Server side encryption:
+		- you enable this feature when creating an s3 bucket. 
+		- aws manages the encryption and decryption process transparantely.
+		AWS SSE - KMS
+			- You can use AWS Key Management Service (KMS) to manage 
+				encryption keys used for your s3 data. 
+			- SSE - KMS provides additional control and audibility over key management
+			
+		SSE - CUSTOMER PROVIDED KEYS (SSE-C)
+			- U have an option to provide your own encryption keys that will be
+				used to encrypt and decrypt the objects in s3.
+	2. CSE :
+		- CSE involves encrypting data on the client's side before it is sent to a server / storage. 
+		- this process is typically managed by the client application or user (libraries / tools)		
+	
+				*******IAM ACCESS ANALYZER************
+IAM ACCESS ANALYZER FOR S3:
+	- Ensures that only intended people have access to your s3 buckets. 
+	- ex: publicly accessible bucket, buckets shared with other aws account.
+	- evaluates s3 bucket policies, s3 ACL's, access point policies.
+	
+			**************SHARED RESPONSIBILITY MODEL FOR S3************
+	AWS:
+	- infrastructure
+	- config and vulnarability analysis
+	- compliance validation
+	
+	USER:
+	- S3 versioning
+	- s3 bucket policies
+	- s3 replication setup
+	- logging and monitoring
+	- s3 storage classes
+	- data encryption at rest and in transit.
+				
+			
+			
+	
+	
+	
+	
+	
+	
+		
